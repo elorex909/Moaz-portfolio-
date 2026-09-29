@@ -48,3 +48,35 @@
 - Removed smoothing interpolation on custom cursor so it tracks 1:1 with zero lag
 
 - Added scrolling Typewriter effect to all section titles and lead paragraphs
+
+- Fused new About Me text with the chess metaphor (kept "read a position before I move") and updated Contact section.
+- Built interactive Window Manager for glass panels:
+  - Red dot: closes window with scale-down animation
+  - Yellow dot: maximizes window (overrides tilt, locks scroll)
+  - Green dot: minimizes window to a new macOS-style Taskbar (Dock) on the right
+  - Dock: highly styled glassy dock that expands as windows are minimized. Clicking a dock item restores the window.
+- Fixed z-index conflict with custom cursor when windows are maximized.
+- Enforced !important on window animations to prevent override by the continuous tilt requestAnimationFrame.
+
+- Precision Genie Effect: Minimized windows now calculate their exact trajectory to fly perfectly into their corresponding Taskbar circle, and grow back out of it.
+- Title bar stability: Disabled 3D tilt effect when hovering the top bar of a window, allowing stable interaction with the red/yellow/green buttons.
+- Maximize animation: Added a pop-up grow animation instead of instant snap when maximizing.
+
+- Fixed window minimize/maximize/close flying to the dock with no transform animation on tilt cards: `.win.win-animating` had `!important` inside a comma list (invalid, dropped) and `.js .rv2` transition overrode `.win`. Rule is valid now.
+- Window manager: minimize/restore now lock the tilt, flatten the card with an inline `transition:none !important`, force a reflow, then add `.win-minimized` in the next frame. Flight path is measured after flattening and re-measured on restore.
+- main.js: the animation lock is checked before the title-bar branch.
+
+## v14: Skill title chips on the skills board
+
+- Each piece on the skills chessboard now shows a small rectangle that rises from it with the skill title only (no description). Hover, focus or tap a piece to bring it up; the detail text stays in the side card.
+- Same look as the rest of the site: dark glass, hairline border, 10px radius, a 2px left accent in the piece colour (pawns grey, knights and bishops ice blue, rooks and queen pale gold, king gold), and a thin stem down to the piece.
+- The chip follows the piece when the board tilts with the pointer, and is clamped to the board area so it never leaves the screen (checked at 1440px and 390px).
+- `main.js`: chip logic next to the piece data. `premium.css`: `.sklab` styles at the end. Cache version bumped to v=26 for both files.
+
+## v15: Contact form sends to email
+
+- The contact form now posts to FormSubmit (`formsubmit.co/ajax/<EMAIL>`), so each message lands in mezoahme136@gmail.com as a formatted "box" email with the subject "New portfolio message from <name>". A copy goes to elorex909@gmail.com through FormSubmit's `_cc` field. The sender's address is set as reply-to, so Reply goes straight to them.
+- Button shows "Sending…", then a status line under it says sent or failed. If the request fails, the status offers a mailto link (with the second address in cc) and the message pre-filled.
+- Hidden honeypot field (`_honey`) blocks simple spam bots.
+- `index.html`: name attributes on the fields, honeypot, status line. `main.js`: `EMAIL_CC` constant and new submit handler. `premium.css`: `.fs` and `.hp` styles at the end. Cache version bumped to v=27 for main.js and premium.css.
+- Setup step: the first message triggers an activation email from FormSubmit to mezoahme136@gmail.com. Click the activate link once, from the deployed site.

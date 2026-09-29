@@ -1,26 +1,44 @@
 const GH="",LI="https://www.linkedin.com/in/moaz-ahmed-6a491a412/"; // GH: put your GitHub URL here to show the GitHub links
-const EMAIL="mezoahme136@gmail.com";
+const EMAIL="mezoahme136@gmail.com",EMAIL_CC="elorex909@gmail.com"; // form messages go to EMAIL, with a copy to EMAIL_CC
 const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 document.querySelectorAll('[data-tilt]').forEach(el=>{
   const max=el.classList.contains('sq')?4:6;
   el.addEventListener('pointermove',e=>{
     if(rm||e.pointerType==='touch')return;
+    if(el.classList.contains('win-animating')||el.classList.contains('win-closed')||el.classList.contains('win-minimized')||el.classList.contains('win-max')) return;
+    if(e.target.closest('.tb')) { el.style.transform=''; return; }
     const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
     el.classList.remove('leave');
     el.style.transform=`perspective(1200px) rotateX(${(.5-y)*max*2}deg) rotateY(${(x-.5)*max*2}deg) scale(1.01)`;
     el.style.setProperty('--mx',x*100+'%');el.style.setProperty('--my',y*100+'%');el.style.setProperty('--ang',x*360+'deg');
   });
-  el.addEventListener('pointerleave',()=>{el.classList.add('leave');el.style.transform=''});
+  el.addEventListener('pointerleave',()=>{
+    if(el.classList.contains('win-animating')||el.classList.contains('win-closed')||el.classList.contains('win-minimized')||el.classList.contains('win-max')) return;
+    el.classList.add('leave');el.style.transform='';
+  });
 });
 document.querySelectorAll('.btn').forEach(b=>b.addEventListener('click',e=>{
   const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height),d=document.createElement('span');
   d.className='rip';d.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;
   b.appendChild(d);setTimeout(()=>d.remove(),650);
 }));
-document.getElementById('cf').addEventListener('submit',e=>{
+document.getElementById('cf').addEventListener('submit',async e=>{
   e.preventDefault();
-  const n=encodeURIComponent(document.getElementById('n').value),m=encodeURIComponent(document.getElementById('m').value+'\n\nFrom: '+document.getElementById('e').value);
-  location.href=`mailto:${EMAIL}?subject=Portfolio message from ${n}&body=${m}`;
+  const f=e.target,btn=document.getElementById('send'),st=document.getElementById('fs'),
+    n=f.n.value.trim(),em=f.e.value.trim(),m=f.m.value.trim();
+  if(f._honey.value)return; // spam bot filled the hidden field
+  btn.disabled=true;btn.textContent='Sending…';st.className='fs';st.textContent='';
+  try{
+    const r=await fetch('https://formsubmit.co/ajax/'+EMAIL,{method:'POST',
+      headers:{'Content-Type':'application/json',Accept:'application/json'},
+      body:JSON.stringify({name:n,email:em,message:m,_subject:'New portfolio message from '+n,_template:'box',_captcha:'false',_cc:EMAIL_CC})});
+    const d=await r.json();
+    if(!r.ok||String(d.success)!=='true')throw new Error(d.message||'failed');
+    f.reset();st.className='fs ok';st.textContent='Message sent. Thank you, I will reply soon.';
+  }catch(err){
+    st.className='fs err';
+    st.innerHTML='Could not send it from here. <a href="mailto:'+EMAIL+'?cc='+EMAIL_CC+'&subject='+encodeURIComponent('Portfolio message from '+n)+'&body='+encodeURIComponent(m+'\n\nFrom: '+em)+'">Open it in your email app</a> instead.';
+  }finally{btn.disabled=false;btn.textContent='Send message'}
 });
 
 document.querySelectorAll('[data-repo]').forEach(a=>a.href=GH+'/'+a.dataset.repo);
@@ -52,10 +70,18 @@ let vis=true;new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(st);
 
 const sp=document.getElementById('spot');addEventListener('pointermove',e=>{sp.style.transform=`translate(${e.clientX}px,${e.clientY}px)`});
 const PC=[[7,0,'♜','rq','Rook','Predictive Analysis','Framing which customers or employees are likely to leave next.'],[7,1,'♞','kb','Knight','Pandas','Grouping, aggregation and transformation across all four projects.'],[7,2,'♝','kb','Bishop','EDA','Distributions, segments and relationships that show where to look.'],[7,3,'♛','rq','Queen','Machine Learning','Building the fundamentals toward churn and attrition models.'],[7,4,'♚','kg','King','Business Intelligence & Data Storytelling','KPI summaries and plain-language insights a business can act on.'],[7,5,'♝','kb','Bishop','Python','NumPy, Pandas, Matplotlib, Seaborn and SciPy inside Jupyter.'],[7,6,'♞','kb','Knight','Visualizations','Seaborn and Matplotlib charts, each built to answer one question.'],[7,7,'♜','rq','Rook','Statistical Testing','t-tests and p-values to separate real signal from noise.'],[6,2,'♟','pa','Pawn','SQL','Querying and aggregating tabular data.'],[6,3,'♟','pa','Pawn','Data Cleaning','Duplicates, missing values, invalid ages and inconsistent labels.'],[6,4,'♟','pa','Pawn','Data Wrangling','Reshaping raw tables into analysis-ready data.'],[6,5,'♟','pa','Pawn','Feature Engineering','Deriving profit, date and segment features from raw columns.']];
-const bd=document.getElementById('bd'),it=document.getElementById('it'),inn=document.getElementById('in'),idd=document.getElementById('id');let cur;
+const bd=document.getElementById('bd'),it=document.getElementById('it'),inn=document.getElementById('in'),idd=document.getElementById('id'),bs=document.getElementById('bs');let cur,curB;
+/* skill title chip: rises from the selected piece, title only (details stay in the side card) */
+const lab=document.createElement('div');lab.className='sklab';lab.setAttribute('aria-hidden','true');lab.innerHTML='<span></span>';bs.appendChild(lab);const labT=lab.firstChild;
+let raf=0,until=0;
+const place=()=>{if(!curB)return;const s=curB.querySelector('svg').getBoundingClientRect(),r=bs.getBoundingClientRect(),w=lab.offsetWidth,m=8,x=s.left+s.width/2-r.left,c=Math.min(Math.max(x,w/2+m),Math.max(r.width-w/2-m,w/2+m));lab.style.setProperty('--x',c);lab.style.setProperty('--y',s.top-r.top+s.height*.1);lab.style.setProperty('--a',x-c)};
+const track=()=>{place();raf=performance.now()<until?requestAnimationFrame(track):0};
+const kick=(ms=500)=>{until=performance.now()+ms;if(!raf)raf=requestAnimationFrame(track)};
+const showLab=(b,p)=>{if(curB===b)return;curB=b;labT.textContent=p[5];lab.dataset.k=p[3];lab.classList.remove('on');place();void lab.offsetWidth;lab.classList.add('on');kick()};
 for(let r=5;r<8;r++)for(let c=0;c<8;c++){const q=document.createElement('div');q.className='sqr'+((r+c)%2?' d':'');const p=PC.find(x=>x[0]==r&&x[1]==c);
-if(p){const b=document.createElement('button');b.className='pc '+p[3];b.innerHTML='<svg viewBox="0 0 45 45" aria-hidden="true"><use href="#pc-'+({'♜':'r','♞':'n','♝':'b','♛':'q','♚':'k','♟':'p'})[p[2]]+'"/></svg>';b.setAttribute('aria-label',p[5]);const sh=()=>{cur&&cur.classList.remove('sel');cur=q;q.classList.add('sel');it.textContent=p[4];inn.textContent=p[5];idd.textContent=p[6]};b.onmouseenter=b.onfocus=b.onclick=sh;q.appendChild(b);if(p[3]=='kg')sh()}bd.appendChild(q)}
-const bs=document.getElementById('bs');bs.addEventListener('pointermove',e=>{if(rm||e.pointerType==='touch')return;const r=bs.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;bs.style.setProperty('--rx',38-y*12+'deg');bs.style.setProperty('--rz',-20+x*24+'deg')});
+if(p){const b=document.createElement('button');b.className='pc '+p[3];b.innerHTML='<svg viewBox="0 0 45 45" aria-hidden="true"><use href="#pc-'+({'♜':'r','♞':'n','♝':'b','♛':'q','♚':'k','♟':'p'})[p[2]]+'"/></svg>';b.setAttribute('aria-label',p[5]);const sh=()=>{cur&&cur.classList.remove('sel');cur=q;q.classList.add('sel');it.textContent=p[4];inn.textContent=p[5];idd.textContent=p[6];showLab(b,p)};b.onmouseenter=b.onfocus=b.onclick=sh;q.appendChild(b);if(p[3]=='kg')sh()}bd.appendChild(q)}
+bs.addEventListener('pointermove',e=>{if(rm||e.pointerType==='touch')return;const r=bs.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;bs.style.setProperty('--rx',38-y*12+'deg');bs.style.setProperty('--rz',-20+x*24+'deg');kick()});
+addEventListener('resize',()=>kick(300));addEventListener('load',()=>kick(300));document.fonts&&document.fonts.ready.then(()=>kick(300));
 
 
 const cp=document.getElementById('cp');cp.onclick=async()=>{try{await navigator.clipboard.writeText(EMAIL);cp.textContent='Copied ✓'}catch(e){cp.textContent=EMAIL}setTimeout(()=>cp.textContent='Copy email',2200)};
