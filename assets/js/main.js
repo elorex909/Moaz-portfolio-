@@ -1,5 +1,7 @@
 const GH="",LI="https://www.linkedin.com/in/moaz-ahmed-6a491a412/"; // GH: put your GitHub URL here to show the GitHub links
 const EMAIL="mezoahme136@gmail.com",EMAIL_CC="elorex909@gmail.com"; // form messages go to EMAIL, with a copy to EMAIL_CC
+// Web3Forms access keys (free, from web3forms.com). Key 1 = mezoahme136@gmail.com, Key 2 = elorex909@gmail.com (optional copy)
+const W3F_KEYS=["46664b93-5fbe-4064-900d-85cc1754cd07","PASTE_KEY_FOR_elorex909"];
 const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 document.querySelectorAll('[data-tilt]').forEach(el=>{
   const max=el.classList.contains('sq')?4:6;
@@ -29,13 +31,20 @@ document.getElementById('cf').addEventListener('submit',async e=>{
   if(f._honey.value)return; // spam bot filled the hidden field
   btn.disabled=true;btn.textContent='Sending…';st.className='fs';st.textContent='';
   try{
-    const r=await fetch('https://formsubmit.co/ajax/'+EMAIL,{method:'POST',
-      headers:{'Content-Type':'application/json',Accept:'application/json'},
-      body:JSON.stringify({name:n,email:em,message:m,_subject:'New portfolio message from '+n,_template:'box',_captcha:'false',_cc:EMAIL_CC})});
-    const d=await r.json();
-    if(!r.ok||String(d.success)!=='true')throw new Error(d.message||'failed');
+    const keys=W3F_KEYS.filter(k=>k&&!k.startsWith('PASTE_'));
+    if(!keys.length)throw new Error('Web3Forms access key is not set in main.js');
+    const results=await Promise.allSettled(keys.map(async k=>{
+      const r=await fetch('https://api.web3forms.com/submit',{method:'POST',
+        headers:{'Content-Type':'application/json',Accept:'application/json'},
+        body:JSON.stringify({access_key:k,name:n,email:em,message:m,replyto:em,from_name:'Portfolio',subject:'New portfolio message from '+n,botcheck:''})});
+      const d=await r.json();
+      if(!r.ok||d.success!==true)throw new Error(d.message||'failed');
+      return d;
+    }));
+    if(!results.some(x=>x.status==='fulfilled')){throw new Error(results.map(x=>x.reason&&x.reason.message).join(' | '))}
     f.reset();st.className='fs ok';st.textContent='Message sent. Thank you, I will reply soon.';
   }catch(err){
+    console.error('Contact form error:',err);
     st.className='fs err';
     st.innerHTML='Could not send it from here. <a href="mailto:'+EMAIL+'?cc='+EMAIL_CC+'&subject='+encodeURIComponent('Portfolio message from '+n)+'&body='+encodeURIComponent(m+'\n\nFrom: '+em)+'">Open it in your email app</a> instead.';
   }finally{btn.disabled=false;btn.textContent='Send message'}
