@@ -1,6 +1,6 @@
 const GH="",LI="https://www.linkedin.com/in/moaz-ahmed-6a491a412/";
 const EMAIL="mezoahme136@gmail.com",EMAIL_CC="elorex909@gmail.com";
-const W3F_KEYS=["46664b93-5fbe-4064-900d-85cc1754cd07","PASTE_KEY_FOR_elorex909"];
+const FORM_URL="https://formspree.io/f/mppqpqlq";
 const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 document.querySelectorAll('[data-tilt]').forEach(el=>{
   const max=el.classList.contains('sq')?4:6;
@@ -30,17 +30,11 @@ document.getElementById('cf').addEventListener('submit',async e=>{
   if(f._honey.value)return;
   btn.disabled=true;btn.textContent='Sending…';st.className='fs';st.textContent='';
   try{
-    const keys=W3F_KEYS.filter(k=>k&&!k.startsWith('PASTE_'));
-    if(!keys.length)throw new Error('Web3Forms access key is not set in main.js');
-    const results=await Promise.allSettled(keys.map(async k=>{
-      const r=await fetch('https://api.web3forms.com/submit',{method:'POST',
-        headers:{'Content-Type':'application/json',Accept:'application/json'},
-        body:JSON.stringify({access_key:k,name:n,email:em,message:m,replyto:em,from_name:'Portfolio',subject:'New portfolio message from '+n,botcheck:''})});
-      const d=await r.json();
-      if(!r.ok||d.success!==true)throw new Error(d.message||'failed');
-      return d;
-    }));
-    if(!results.some(x=>x.status==='fulfilled')){throw new Error(results.map(x=>x.reason&&x.reason.message).join(' | '))}
+    const r=await fetch(FORM_URL,{method:'POST',
+      headers:{'Content-Type':'application/json',Accept:'application/json'},
+      body:JSON.stringify({name:n,email:em,message:m,_replyto:em,_subject:'New portfolio message from '+n})});
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok||d.errors)throw new Error((d.errors&&d.errors.map(x=>x.message).join(' | '))||'failed');
     f.reset();st.className='fs ok';st.textContent='Message sent. Thank you, I will reply soon.';
   }catch(err){
     console.error('Contact form error:',err);
