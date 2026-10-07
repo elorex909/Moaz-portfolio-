@@ -20,41 +20,32 @@ N = json.loads((ROOT / "tools" / "numbers.json").read_text())
 R, A, M, C = N["retail"], N["attrition"], N["marketing"], N["churn"]
 TODOS = []
 
-
-# ------------------------------------------------------------------ helpers
 def n0(x): return f"{x:,.0f}"
 def n1(x): return f"{x:,.1f}"
 def n2(x): return f"{x:,.2f}"
 def sg(x): return n2(x).replace("-", "\u2212")
 def pc(x, d=1): return f"{x:.{d}f}%"
 
-
 def pv(p):
     if p < 0.0001: return "p < 0.0001"
     if p < 0.01: return f"p = {p:.4f}"
     return f"p = {p:.2f}"
 
-
 def esc(s): return html.escape(s, quote=True)
-
 
 def todo(text, slug):
     TODOS.append((slug, text))
-    return f'<span class="todo">TODO for Moaz: {esc(text)}</span>'
-
+    return f'<span class="todo">TODO: {esc(text)}</span>'
 
 def v_word(v):
     return "weak" if v < 0.10 else "moderate"
-
 
 def d_word(d):
     d = abs(d)
     return "small" if d < 0.2 else ("small to medium" if d < 0.5 else "medium or larger")
 
-
 def badge(ok, text):
     return f'<span class="badge {"ok" if ok else "no"}">{esc(text)}</span>'
-
 
 def tests_table(rows, caption):
     """rows: (question, result, test, source, p, sig_bool, effect_text)"""
@@ -66,16 +57,13 @@ def tests_table(rows, caption):
     return (f'<div class="tw"><table><caption>{caption}</caption><thead><tr><th>Question</th><th>Result</th>'
             f'<th>Test</th><th class="n">p-value</th><th>Verdict</th></tr></thead><tbody>{body}</tbody></table></div>')
 
-
 def table(head, rows, caption, num_cols=()):
     th = "".join(f'<th class="{"n" if i in num_cols else ""}">{h}</th>' for i, h in enumerate(head))
     tr = "".join("<tr>" + "".join(f'<td class="{"n" if i in num_cols else ""}">{c}</td>' for i, c in enumerate(r)) + "</tr>" for r in rows)
     return f'<div class="tw"><table><caption>{caption}</caption><thead><tr>{th}</tr></thead><tbody>{tr}</tbody></table></div>'
 
-
 def facts(pairs):
     return "<dl class='facts'>" + "".join(f"<dt>{k}</dt><dd>{v}</dd>" for k, v in pairs) + "</dl>"
-
 
 def fig(prefix, chart, alt, caption=None):
     c = chart
@@ -83,30 +71,23 @@ def fig(prefix, chart, alt, caption=None):
     return (f'<figure class="shot"><img src="{prefix}{c["file"]}" width="{c["width"]}" height="{c["height"]}" '
             f'alt="{esc(alt)}" loading="lazy">{cap}</figure>')
 
-
 def pills(items):
     return '<div class="pills tools">' + "".join(f'<span class="pill">{esc(i)}</span>' for i in items) + "</div>"
-
 
 def stats3(items):
     return '<div class="stats3">' + "".join(f"<div><b>{b}</b><span>{esc(s)}</span></div>" for b, s in items) + "</div>"
 
-
 def callout(label, inner):
     return f'<div class="callout"><span class="lab">{label}</span>{inner}</div>'
 
-
 def ol(items): return "<ol>" + "".join(f"<li>{i}</li>" for i in items) + "</ol>"
 def ul(items): return "<ul>" + "".join(f"<li>{i}</li>" for i in items) + "</ul>"
-
 
 def panel(title, body):
     return (f'<section class="cs"><div class="glass cs-panel" data-title="{esc(title)}">'
             f'<h2>{esc(title)}</h2>{body}</div></section>')
 
-
 TOOLS_FULL = ["Python", "Pandas", "NumPy", "Matplotlib", "Seaborn", "SciPy", "Jupyter"]
-# The churn notebook imports seaborn and scipy but never calls them, so they are not listed.
 TOOLS_CHURN = ["Python", "Pandas", "NumPy", "Matplotlib", "Jupyter"]
 
 ORDER = ["retail", "attrition", "marketing", "churn"]
@@ -121,7 +102,6 @@ META = {
                   csv_name="customer churn.csv", tools=TOOLS_CHURN),
 }
 
-# ------------------------------------------------------------------ derived numbers
 rd = R["by_discount"]
 ret = dict(
     sales=R["total_sales"], orders=R["orders"], el=R["electronics"], pt=R["profit_test"], mt=R["margin_test_added"],
@@ -144,11 +124,9 @@ cc = C["by_calls"]
 cp = C["by_plan"]
 nt = C["num_tests"]
 
-# ------------------------------------------------------------------ card + page content
 CARDS = {}
 PAGES = {}
 
-# ---------------- retail
 CARDS["retail"] = dict(
     problem="Where does the money come from, and do discounts pay for themselves?",
     decision=(f"Keep Electronics at the centre, since it brings {pc(ret['el']['sales_share'])} of sales from "
@@ -231,7 +209,6 @@ PAGES["retail"] = dict(
              (n2(ret["pt"]["diff"]), f"Less profit per discounted order ({pv(ret['pt']['p'])}, small effect)")],
 )
 
-# ---------------- attrition
 CARDS["attrition"] = dict(
     problem="Who leaves, and which factors can HR change?",
     decision=(f"Start with overtime and low satisfaction. {pc(ot['Yes']['rate'])} of people who work overtime left, "
@@ -309,7 +286,6 @@ PAGES["attrition"] = dict(
              (pc(st["diff_pct_of_stayed"]), "Lower monthly pay for leavers (small effect)")],
 )
 
-# ---------------- marketing
 h4 = M["clicks_4plus_added"]
 h01 = M["clicks_0to1_added"]
 CARDS["marketing"] = dict(
@@ -387,7 +363,6 @@ PAGES["marketing"] = dict(
              (pc(h4["rate"]), f"Conversion with 4+ ad clicks ({pc(h01['rate'])} with 0 to 1)")],
 )
 
-# ---------------- churn
 c3 = C["calls_3plus"]
 c02 = C["calls_0to2"]
 pa = C["plan_by_activity_added"]
@@ -471,13 +446,11 @@ PAGES["churn"] = dict(
              (pc(c3["rate"]), f"Churn with 3+ service calls ({pc(c02['rate'])} with 0 to 2)")],
 )
 
-# ------------------------------------------------------------------ page shell
 NAV = ('<nav class="glass" aria-label="Sections"><a href="../../index.html#top">Home</a><a href="../../index.html#about">About</a>'
-       '<a href="../../index.html#game">Game</a><a href="../../index.html#certs">Certs</a>'
+       '<a href="../../index.html#certs">Certs</a>'
        '<a class="on" href="../../index.html#projects">Projects</a><a href="../../index.html#skills">Skills</a>'
        '<a href="../../index.html#contact">Contact</a></nav>')
 V = "12"
-
 
 def links_html(key, prefix="", case=True):
     m = META[key]
@@ -485,7 +458,6 @@ def links_html(key, prefix="", case=True):
     first = f'<a href="{base}analysis.html">Case study</a>' if case else ""
     return (f'<div class="links">{first}<a href="{base}analysis.ipynb" download>Notebook</a>'
             f'<a href="{base}data.csv" download="{esc(m["csv_name"])}">Dataset</a></div>')
-
 
 def page(key):
     m, P, i = META[key], PAGES[key], ORDER.index(key)
@@ -524,7 +496,7 @@ def page(key):
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♚</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../assets/css/style.css?v={V}"><link rel="stylesheet" href="../../assets/css/enhance.css?v={V}"><link rel="stylesheet" href="../../assets/css/premium.css?v={V}"><link rel="stylesheet" href="../../assets/css/projects.css?v={V}">
+<link rel="stylesheet" href="../../assets/css/style.css?v={V}"><link rel="stylesheet" href="../../assets/css/enhance.css?v={V}"><link rel="stylesheet" href="../../assets/css/premium.css?v={V}"><link rel="stylesheet" href="../../assets/css/projects.css?v={V}"><link rel="stylesheet" href="../../assets/css/mobile.css?v={V}">
 </head>
 <body class="cs-page">
 <a class="skip" href="#main">Skip to content</a>
@@ -539,7 +511,6 @@ def page(key):
 </html>
 '''
 
-
 def card(key):
     m, c = META[key], CARDS[key]
     ch = c["chart"]
@@ -550,7 +521,6 @@ def card(key):
 <figure class="shot"><img src="{ch["file"]}" width="{ch["width"]}" height="{ch["height"]}" alt="{esc(c["alt"])}" loading="lazy"></figure>
 {pills(m["tools"])}
 {links_html(key)}</article>'''
-
 
 def build_index():
     p = ROOT / "index.html"
@@ -565,7 +535,6 @@ def build_index():
         s2 = s2.replace(f'<link rel="stylesheet" href="assets/css/premium.css?v={V}">',
                         f'<link rel="stylesheet" href="assets/css/premium.css?v={V}"><link rel="stylesheet" href="assets/css/projects.css?v={V}">')
     p.write_text(s2)
-
 
 def readme(key):
     m = META[key]
@@ -604,7 +573,6 @@ def readme(key):
 **Stack:** {', '.join(m['tools'])}
 """
     (ROOT / "projects" / m["dir"] / "README.md").write_text(txt)
-
 
 if __name__ == "__main__":
     for k in ORDER:

@@ -1,6 +1,5 @@
-const GH="",LI="https://www.linkedin.com/in/moaz-ahmed-6a491a412/"; // GH: put your GitHub URL here to show the GitHub links
-const EMAIL="mezoahme136@gmail.com",EMAIL_CC="elorex909@gmail.com"; // form messages go to EMAIL, with a copy to EMAIL_CC
-// Web3Forms access keys (free, from web3forms.com). Key 1 = mezoahme136@gmail.com, Key 2 = elorex909@gmail.com (optional copy)
+const GH="",LI="https://www.linkedin.com/in/moaz-ahmed-6a491a412/";
+const EMAIL="mezoahme136@gmail.com",EMAIL_CC="elorex909@gmail.com";
 const W3F_KEYS=["46664b93-5fbe-4064-900d-85cc1754cd07","PASTE_KEY_FOR_elorex909"];
 const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 document.querySelectorAll('[data-tilt]').forEach(el=>{
@@ -28,7 +27,7 @@ document.getElementById('cf').addEventListener('submit',async e=>{
   e.preventDefault();
   const f=e.target,btn=document.getElementById('send'),st=document.getElementById('fs'),
     n=f.n.value.trim(),em=f.e.value.trim(),m=f.m.value.trim();
-  if(f._honey.value)return; // spam bot filled the hidden field
+  if(f._honey.value)return;
   btn.disabled=true;btn.textContent='Sending…';st.className='fs';st.textContent='';
   try{
     const keys=W3F_KEYS.filter(k=>k&&!k.startsWith('PASTE_'));
@@ -80,7 +79,7 @@ let vis=true;new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(st);
 const sp=document.getElementById('spot');addEventListener('pointermove',e=>{sp.style.transform=`translate(${e.clientX}px,${e.clientY}px)`});
 const PC=[[7,0,'♜','rq','Rook','Predictive Analysis','Framing which customers or employees are likely to leave next.'],[7,1,'♞','kb','Knight','Pandas','Grouping, aggregation and transformation across all four projects.'],[7,2,'♝','kb','Bishop','EDA','Distributions, segments and relationships that show where to look.'],[7,3,'♛','rq','Queen','Machine Learning','Building the fundamentals toward churn and attrition models.'],[7,4,'♚','kg','King','Business Intelligence & Data Storytelling','KPI summaries and plain-language insights a business can act on.'],[7,5,'♝','kb','Bishop','Python','NumPy, Pandas, Matplotlib, Seaborn and SciPy inside Jupyter.'],[7,6,'♞','kb','Knight','Visualizations','Seaborn and Matplotlib charts, each built to answer one question.'],[7,7,'♜','rq','Rook','Statistical Testing','t-tests and p-values to separate real signal from noise.'],[6,2,'♟','pa','Pawn','SQL','Querying and aggregating tabular data.'],[6,3,'♟','pa','Pawn','Data Cleaning','Duplicates, missing values, invalid ages and inconsistent labels.'],[6,4,'♟','pa','Pawn','Data Wrangling','Reshaping raw tables into analysis-ready data.'],[6,5,'♟','pa','Pawn','Feature Engineering','Deriving profit, date and segment features from raw columns.']];
 const bd=document.getElementById('bd'),it=document.getElementById('it'),inn=document.getElementById('in'),idd=document.getElementById('id'),bs=document.getElementById('bs');let cur,curB;
-/* skill title chip: rises from the selected piece, title only (details stay in the side card) */
+
 const lab=document.createElement('div');lab.className='sklab';lab.setAttribute('aria-hidden','true');lab.innerHTML='<span></span>';bs.appendChild(lab);const labT=lab.firstChild;
 let raf=0,until=0;
 const place=()=>{if(!curB)return;const s=curB.querySelector('svg').getBoundingClientRect(),r=bs.getBoundingClientRect(),w=lab.offsetWidth,m=8,x=s.left+s.width/2-r.left,c=Math.min(Math.max(x,w/2+m),Math.max(r.width-w/2-m,w/2+m));lab.style.setProperty('--x',c);lab.style.setProperty('--y',s.top-r.top+s.height*.1);lab.style.setProperty('--a',x-c)};
@@ -92,5 +91,6 @@ if(p){const b=document.createElement('button');b.className='pc '+p[3];b.innerHTM
 bs.addEventListener('pointermove',e=>{if(rm||e.pointerType==='touch')return;const r=bs.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;bs.style.setProperty('--rx',38-y*12+'deg');bs.style.setProperty('--rz',-20+x*24+'deg');kick()});
 addEventListener('resize',()=>kick(300));addEventListener('load',()=>kick(300));document.fonts&&document.fonts.ready.then(()=>kick(300));
 
-
 const cp=document.getElementById('cp');cp.onclick=async()=>{try{await navigator.clipboard.writeText(EMAIL);cp.textContent='Copied ✓'}catch(e){cp.textContent=EMAIL}setTimeout(()=>cp.textContent='Copy email',2200)};
+
+{const nv=document.querySelector('nav');if(nv)new MutationObserver(()=>{const a=nv.querySelector('a.on');if(a&&nv.scrollWidth>nv.clientWidth)nv.scrollTo({left:a.offsetLeft-nv.clientWidth/2+a.offsetWidth/2,behavior:'smooth'})}).observe(nv,{subtree:true,attributes:true,attributeFilter:['class']})}

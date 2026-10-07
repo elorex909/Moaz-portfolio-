@@ -1,0 +1,107 @@
+
+
+@media (hover:none){
+  #spot,#cur{display:none}
+  .card>*,.holo>*{transform:none}
+  .tilt{will-change:auto}
+}
+
+@media (max-width:820px){
+  html{scroll-padding-top:76px}
+  body{font-size:1rem}
+  .orb{display:none}
+  .glass{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);background:rgba(6,12,16,.78);border-radius:18px}
+  .js .rv,.js .rv2{filter:none;transform:none;transition:opacity .6s ease}
+  .js .rv:not(.in){transform:translateY(16px)}
+  .js .rv.in{transform:none}
+
+  nav{width:max-content;top:calc(8px + env(safe-area-inset-top,0px));max-width:calc(100% - 16px);padding:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-x:contain}
+  nav::-webkit-scrollbar{display:none}
+  nav a{padding:10px 14px;font-size:.88rem;min-height:40px;display:inline-flex;align-items:center}
+
+  section{padding:84px 18px 28px}
+  h2,h2.gold,h2.cyan{font-size:clamp(1.9rem,8.5vw,2.5rem)}
+  .lead{font-size:1.02rem;margin-bottom:24px}
+
+  #top{padding-top:96px;min-height:auto}
+  #top::before{left:0;right:0;width:auto;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.35))}
+  h1{font-size:clamp(2.5rem,13vw,3.6rem)}
+  .tl{font-size:1.15rem}
+  .sub{font-size:1.02rem;max-width:none}
+  .stage{height:110px}
+  .btns{flex-direction:column;gap:12px}
+  .btns .btn{width:100%;text-align:center;padding:15px 20px}
+  .hl{gap:10px 20px}
+  .hl a{padding:8px 0;min-height:40px;display:inline-flex;align-items:center}
+  .metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
+  .metrics .glass{min-width:0;padding:12px 14px}
+  .metrics .glass:last-child{grid-column:1/-1}
+  .marq{margin-top:18px}
+
+  .about{padding:20px}
+  .about.win{padding-top:calc(20px + var(--tb))}
+  .about .ab p{font-size:1rem;line-height:1.7}
+
+  .certs .holo,.certs .holo.win{padding:20px;padding-top:calc(20px + var(--tb))}
+  .clinks a{padding:11px 18px;min-height:44px;display:inline-flex;align-items:center}
+
+  .grid.pj{gap:18px}
+  .card,.card.win{padding:20px;padding-top:calc(20px + var(--tb))}
+  .pcard{padding-bottom:22px}
+  .pcard .dec{font-size:.95rem}
+  .pcard .links a,.links a{padding:11px 16px;min-height:44px;display:inline-flex;align-items:center}
+  .pill{font-size:.78rem;padding:3px 10px}
+
+  .bwrap{gap:14px}
+  .bstage{--rx:28deg;--rz:-6deg;padding:44px 0 6px}
+  .binfo,.binfo.win{padding:20px;padding-top:calc(20px + var(--tb));min-height:0}
+  .binfo p{min-height:0}
+
+  .contact,.contact.win{padding:20px;padding-top:calc(20px + var(--tb))}
+  .f input,.f textarea{font-size:16px;padding:22px 14px 8px}
+  .contact .btn{min-height:50px}
+  .soc{gap:14px 20px}
+  .soc a,.soc button{padding:8px 2px;min-height:40px}
+
+  footer{padding:22px 18px calc(30px + env(safe-area-inset-bottom,0px));margin-top:30px}
+
+  .tb .dots{gap:14px}
+  .tb .dots button{position:relative}
+  .tb .dots button::after{content:"";position:absolute;inset:-14px -7px}
+  .tb .tt{max-width:40%}
+
+  .win-max{
+    inset:calc(8px + env(safe-area-inset-top,0px)) 8px calc(8px + env(safe-area-inset-bottom,0px)) !important;
+    min-height:0 !important;
+    padding:calc(18px + var(--tb,42px)) 18px 36px !important;
+    font-size:1em !important;
+    border-radius:18px !important;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+  }
+  .win-max.card{padding:calc(18px + var(--tb,42px)) 18px 36px !important}
+  .win-max.card .dec{padding:16px !important;margin-bottom:24px !important}
+  .win-max.card p{margin-bottom:18px !important}
+  .win-max p,.win-max .prob,.win-max .dec{font-size:1rem !important}
+
+  #dock{right:auto;left:50%;top:auto;bottom:calc(14px + env(safe-area-inset-bottom,0px));flex-direction:row;gap:10px;padding:8px;border-radius:40px;transform:translateX(-50%) scale(.9)}
+  #dock.active{transform:translateX(-50%) scale(1)}
+  #dock button{width:48px;height:48px;font-size:1.3rem}
+
+  #hud{left:10px;right:auto;max-width:calc(100% - 20px);font-size:.72rem;padding:6px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #dock.active ~ #hud{display:none}
+}
+
+@media (max-width:380px){
+  nav a{padding:10px 11px;font-size:.84rem}
+  .stats3 b{font-size:1.35rem}
+  .metrics{grid-template-columns:1fr}
+}
+
+@media (max-width:600px){
+  section.cs{padding-left:16px;padding-right:16px}
+  section.cs-head{padding-top:92px}
+  .cs-panel{padding:calc(var(--tb,42px) + 18px) 18px 22px}
+  .cs-head h1{font-size:clamp(1.9rem,9vw,2.6rem)}
+  .back{padding:8px 0;min-height:40px}
+}

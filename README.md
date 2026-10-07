@@ -5,8 +5,8 @@ Static site (HTML, CSS, JS). No build step.
 ```
 index.html
 assets/css/style.css        glass theme and 3D styles
-assets/css/enhance.css      intro, chessboard floor, game room, cursor
-assets/js/enhance.js        Opera Game replay, intro, cursor, result badges
+assets/css/enhance.css      intro, chessboard floor, cursor
+assets/js/enhance.js        Opera Game move list, intro, cursor, result badges
 assets/js/enhance3d.js      3D chess world (Three.js r128): reflective ivory and obsidian pieces, environment lighting, sculpted knight; scroll plays the Opera Game
 assets/css/premium.css      design layer: SF-style system type, champagne palette, refined glass, window bars, reveal
 assets/css/projects.css     project cards and case-study pages
@@ -42,4 +42,4 @@ python3 tools/build_project_assets.py   # recomputes every number from projects/
 python3 tools/build_pages.py            # rewrites the Featured projects section, the four analysis.html pages and the project READMEs
 ```
 
-Every figure on the cards and case studies comes from `tools/numbers.json`. Search the case studies for `TODO for Moaz` to find the facts that still need an answer.
+Every figure on the cards and case studies comes from `tools/numbers.json`. Search the case studies for `TODO` to find any facts that still need an answer.

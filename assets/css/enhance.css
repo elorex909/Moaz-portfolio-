@@ -1,5 +1,5 @@
 
-/* v3 enhancements */
+
 body::after{content:"";position:fixed;inset:0;z-index:40;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
 #bar{min-width:14px}
 body.lock{overflow:hidden}
@@ -13,24 +13,10 @@ body.lock{overflow:hidden}
 @media(pointer:fine){*{cursor:none!important}}
 #cur{position:fixed;left:-18px;top:-18px;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--go);z-index:100000;pointer-events:none;opacity:0;transition:opacity .3s,width .2s,height .2s,margin .2s,background .2s}#cur.on{opacity:.9}#cur.big{width:58px;height:58px;margin:-11px 0 0 -11px;background:rgba(245,158,11,.12)}
 .mv{font-size:.9rem;letter-spacing:.02em}.mv b{color:var(--cy);font-weight:700}
-.gr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(22px,4vw,50px);padding:clamp(20px,3vw,38px);align-items:center}
-.gb{display:grid;grid-template-columns:repeat(8,1fr);width:100%;max-width:500px;margin:auto;border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.2),0 40px 80px -20px rgba(6,182,212,.4)}
-.gs{aspect-ratio:1;display:grid;place-items:center;background:rgba(255,255,255,.07);position:relative}.gs.d{background:rgba(6,182,212,.3)}.gs.lm{box-shadow:inset 0 0 0 100px rgba(245,158,11,.32)}
-.gp{font:clamp(1.6rem,5.4vw,3rem)/1 "Segoe UI Symbol","Noto Sans Symbols 2","DejaVu Sans",serif;transition:transform .3s}.gp.w{color:#e0fbff;text-shadow:0 0 14px var(--cy),0 2px 2px #000}.gp.b{color:var(--go);text-shadow:0 0 14px rgba(245,158,11,.8),0 2px 2px #000}
-.gt{margin:0 0 6px;font-size:1.05rem}#gc{min-height:3.2em;margin:0 0 14px;color:var(--go)}
-.ctl{display:flex;align-items:center;gap:8px}.ctl button{width:46px;height:40px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#fff;font-size:1rem;cursor:pointer}.ctl button:hover{border-color:var(--cy);box-shadow:0 0 14px rgba(6,182,212,.4)}#cap{margin-left:auto;color:var(--mut)}
-.moves{list-style:none;padding:0;margin:16px 0;display:flex;flex-wrap:wrap;gap:2px 3px;max-height:124px;overflow:auto;font-size:.88rem}.moves .n{color:var(--mut);padding:3px 0 3px 6px}.moves button{font:inherit;color:#fff;background:none;border:0;border-radius:6px;padding:3px 7px;cursor:pointer}.moves button:hover{background:rgba(255,255,255,.08)}.moves button.on{background:var(--go);color:#000;font-weight:700}
-.note{color:var(--mut);font-size:.85rem;margin:0}
-@media(max-width:800px){.gr{grid-template-columns:1fr}.floor{height:40%}}
+@media(max-width:800px){.floor{height:40%}}
 
-.gb .gs{background:var(--l,rgba(255,255,255,.07))}.gb .gs.d{background:var(--d,rgba(6,182,212,.3))}
-.gb[data-t=classic]{--l:#eeeed2;--d:#769656}.gb[data-t=walnut]{--l:#f0d9b5;--d:#b58863}
-.gb[data-t] .gp.w{color:#fff;text-shadow:0 0 1px #000,0 1px 2px #000}.gb[data-t] .gp.b{color:#141414;text-shadow:0 0 1px rgba(255,255,255,.35)}.gb[data-t] .gs.lm{box-shadow:inset 0 0 0 100px rgba(255,226,80,.45)}
-.mg{margin:4px 0 14px}.mgh{display:flex;justify-content:space-between;font-size:.82rem;color:var(--mut);margin-bottom:4px}.mgh b{color:var(--go);font-weight:500}#mg svg{width:100%;height:auto;display:block}
-.sw{display:flex;gap:8px;margin:0 0 14px}.sw button{font:inherit;font-size:.8rem;color:var(--mut);background:none;border:1px solid rgba(255,255,255,.18);border-radius:99px;padding:4px 14px;cursor:pointer}.sw button:hover{color:#fff}.sw button.on{color:#000;background:var(--cy);border-color:var(--cy)}
 .card p.ins{flex:none;color:#fff;border-left:2px solid var(--cy);padding-left:12px;font-size:.92rem}.ins b{color:var(--cy);font-weight:700;margin-right:6px}
 
-/* v5: 3D world */
 #gl{position:fixed;inset:0;width:100%;height:100%;z-index:-2;display:block}
 .floor{display:none}.stage{opacity:0;pointer-events:none}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.7),rgba(0,0,0,.12) 62%,transparent),radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(0,0,0,.6))}

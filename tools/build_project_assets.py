@@ -33,7 +33,6 @@ ROOT = Path(__file__).resolve().parents[1]
 PROJ = ROOT / "projects"
 IMG = ROOT / "assets" / "img" / "projects"
 
-# ---------- theme (matches premium.css tokens) ----------
 BG, FG, MUT, LINE = "#0d0f13", "#f5f5f7", "#9aa0aa", "#262b34"
 GOLD, CYAN, SLATE = "#dcb972", "#a9d6e5", "#4a5361"
 plt.rcParams.update({
@@ -45,10 +44,8 @@ plt.rcParams.update({
 })
 W, H = 12, 6.6  # inches at dpi 100 -> 1200 x 660 px
 
-
 def f(x):
     return float(x)
-
 
 def wilson(k, n, z=1.96):
     p = k / n
@@ -57,14 +54,12 @@ def wilson(k, n, z=1.96):
     h = z * np.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d
     return f((c - h) * 100), f((c + h) * 100)
 
-
 def chi2(df, col, target):
     ct = pd.crosstab(df[col], df[target])
     c2, p, dof, _ = stats.chi2_contingency(ct)
     n = ct.values.sum()
     v = np.sqrt(c2 / (n * (min(ct.shape) - 1)))
     return {"chi2": f(c2), "p": f(p), "dof": int(dof), "cramers_v": f(v)}
-
 
 def welch(a, b):
     t, p = stats.ttest_ind(a, b, equal_var=False)
@@ -74,7 +69,6 @@ def welch(a, b):
     return {"t": f(t), "p": f(p), "diff": f(diff), "ci_low": f(diff - 1.96 * se),
             "ci_high": f(diff + 1.96 * se), "cohens_d": f(diff / sp),
             "mean_a": f(a.mean()), "mean_b": f(b.mean()), "n_a": int(len(a)), "n_b": int(len(b))}
-
 
 def save_webp(fig, folder, name):
     out = IMG / folder
@@ -90,7 +84,6 @@ def save_webp(fig, folder, name):
     return {"file": f"assets/img/projects/{folder}/{name}.webp", "width": im.width,
             "height": im.height, "bytes": path.stat().st_size}
 
-
 def style_axes(ax, ymax=None, pct=True, ylabel=None):
     ax.tick_params(axis="both", length=0, pad=10)
     ax.yaxis.grid(True, color=LINE, linewidth=1.2)
@@ -104,7 +97,6 @@ def style_axes(ax, ymax=None, pct=True, ylabel=None):
     if ylabel:
         ax.set_ylabel(ylabel, labelpad=12)
 
-
 def ref_legend(fig, label):
     """Dashed-line key at the top right, sized from the measured text so it never overlaps the label."""
     from matplotlib.lines import Line2D
@@ -116,18 +108,14 @@ def ref_legend(fig, label):
     fig.add_artist(Line2D([x1 - 0.045, x1], [0.925, 0.925], transform=fig.transFigure, color=CYAN,
                           linewidth=2.4, linestyle=(0, (4, 3))))
 
-
 def whisker_note(fig):
     fig.text(0.975, 0.02, "Whiskers show the 95% confidence range", color=MUT, fontsize=18, ha="right", va="bottom")
-
 
 VAL = dict(fontsize=26, color=FG, fontweight="bold", zorder=6,
            bbox=dict(facecolor=BG, edgecolor="none", pad=3))
 
-
 def title(fig, text):
     fig.text(0.045, 0.94, text, fontsize=25, color=FG, ha="left", va="top", fontweight="bold")
-
 
 def vbars(folder, name, labels, values, colors, ttl, ymax, fmt="{:.1f}%", sub=None,
           hline=None, hline_label=None, err=None):
@@ -150,7 +138,6 @@ def vbars(folder, name, labels, values, colors, ttl, ymax, fmt="{:.1f}%", sub=No
         ref_legend(fig, hline_label)
     title(fig, ttl)
     return save_webp(fig, folder, name)
-
 
 def hbars(folder, name, labels, values, colors, ttl, xmax, fmt="{:.1f}%", err=None, vline=None,
           vline_label=None, extra=None):
@@ -183,7 +170,6 @@ def hbars(folder, name, labels, values, colors, ttl, xmax, fmt="{:.1f}%", err=No
     title(fig, ttl)
     return save_webp(fig, folder, name)
 
-
 def lineplot(folder, name, labels, values, ttl, ymax, fmt="{:.1f}%", hline=None, hline_label=None,
              sub=None, color=GOLD, label_every=1, ylab_fmt=None):
     fig, ax = plt.subplots(figsize=(W, H))
@@ -208,10 +194,6 @@ def lineplot(folder, name, labels, values, ttl, ymax, fmt="{:.1f}%", hline=None,
     title(fig, ttl)
     return save_webp(fig, folder, name)
 
-
-# =====================================================================
-# 01 Retail
-# =====================================================================
 def retail():
     raw = pd.read_csv(PROJ / "01-retail-sales-performance-analysis" / "data.csv")
     N = {"raw_rows": len(raw), "raw_cols": raw.shape[1], "duplicates": int(raw.duplicated().sum()),
@@ -276,7 +258,6 @@ def retail():
     N["month_max"] = {"month": ms.idxmax(), "sales": f(ms.max())}
     N["month_min"] = {"month": ms.idxmin(), "sales": f(ms.min())}
 
-    # added check: effect of median-imputing Sales
     ok = df[~df.sales_imputed]
     N["imputation_check_added"] = {
         "rows_imputed": int(df.sales_imputed.sum()), "share_pct": f(df.sales_imputed.mean() * 100),
@@ -292,7 +273,6 @@ def retail():
     N["imputation_check_added"]["sales_formula_match_pct"] = f((abs(calc - clean.Sales) < 0.05).mean() * 100)
     N["imputation_check_added"]["sales_formula_rows"] = int(len(clean))
 
-    # charts
     ch = {}
     order = list(cs.index)
     labels = [("No category recorded" if c == "Unknown" else c) for c in order]
@@ -325,10 +305,6 @@ def retail():
     N["charts"] = ch
     return N
 
-
-# =====================================================================
-# 02 Attrition
-# =====================================================================
 def attrition():
     raw = pd.read_csv(PROJ / "02-employee-attrition-analysis" / "data.csv")
     N = {"raw_rows": len(raw), "raw_cols": raw.shape[1], "duplicates": int(raw.duplicated().sum()),
@@ -398,10 +374,6 @@ def attrition():
     N["charts"] = ch
     return N
 
-
-# =====================================================================
-# 03 Marketing
-# =====================================================================
 def marketing():
     raw = pd.read_csv(PROJ / "03-marketing-campaign-performance-analysis" / "data.csv")
     N = {"raw_rows": len(raw), "raw_cols": raw.shape[1], "duplicates": int(raw.duplicated().sum()),
@@ -469,10 +441,6 @@ def marketing():
     N["charts"] = ch
     return N
 
-
-# =====================================================================
-# 04 Churn
-# =====================================================================
 def churn():
     raw = pd.read_csv(PROJ / "04-customer-churn-analysis" / "data.csv")
     N = {"raw_rows": len(raw), "raw_cols": raw.shape[1], "duplicates": int(raw.duplicated().sum()),
@@ -553,7 +521,6 @@ def churn():
                                             sub=[f"{cl[k]['n']:,}" for k in corder])
     N["charts"] = ch
     return N
-
 
 if __name__ == "__main__":
     out = {"retail": retail(), "attrition": attrition(), "marketing": marketing(), "churn": churn()}

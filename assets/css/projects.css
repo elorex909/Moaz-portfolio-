@@ -1,7 +1,5 @@
-/* v12: project cards and case-study pages. Loads last; uses the tokens from premium.css
-   (--go gold, --cy ice blue, --mut muted text, --line hairline, --sans system stack). */
 
-/* ---------- featured project cards (index.html) ---------- */
+
 .pj{grid-template-columns:repeat(auto-fit,minmax(min(100%,470px),1fr));gap:26px}
 .pcard{gap:0;padding-bottom:28px}
 .pcard>*{min-width:0}
@@ -27,7 +25,6 @@
   .stats3 span{margin-top:0}
 }
 
-/* ---------- case-study pages ---------- */
 body.cs-page main{padding-bottom:20px}
 section.cs{max-width:920px;margin:0 auto;padding:12px 24px}
 section.cs-head{padding-top:clamp(96px,12vw,128px)}
@@ -92,7 +89,7 @@ section.cs-head{padding-top:clamp(96px,12vw,128px)}
 .cs-page footer{margin-top:40px}
 .back{display:inline-block;margin:0 0 18px;color:var(--mut);text-decoration:none;font-size:.95rem}
 .back:hover,.back:focus-visible{color:var(--go)}
-/* small screens: keep chart text readable by letting the chart scroll sideways inside its frame */
+
 @media(max-width:600px){
   .shot{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px}
   .shot img{width:640px;max-width:none}

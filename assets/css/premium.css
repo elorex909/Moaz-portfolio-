@@ -1,4 +1,4 @@
-/* v6 premium layer: loads last, restyles via tokens so nothing else breaks */
+
 :root{--cy:#a9d6e5;--go:#dcb972;--mut:rgba(255,255,255,.58);--line:rgba(255,255,255,.09);--serif:'Instrument Serif',Georgia,'Times New Roman',serif;--sans:'Hanken Grotesk','Space Grotesk',system-ui,sans-serif}
 body{font-family:var(--sans);background:radial-gradient(1100px 620px at 80% -8%,rgba(220,185,114,.09),transparent 60%),radial-gradient(900px 600px at 0% 30%,rgba(169,214,229,.05),transparent 60%),#000}
 body::after{opacity:.045}
@@ -27,63 +27,37 @@ h3{font-weight:500;letter-spacing:-.01em}
 .card:hover{border-color:rgba(220,185,114,.35)}
 .mini{border-block:1px solid var(--line);padding:16px 0}
 .stat{border-left:1px solid var(--go);border-radius:0 14px 14px 0}
-.about,.gr{padding:clamp(26px,4vw,52px)}
+.about{padding:clamp(26px,4vw,52px)}
 .about p{font-size:1.05rem;line-height:1.75}
 .links a{color:#fff;text-decoration-color:var(--go)}
 #bar{box-shadow:0 0 8px rgba(220,185,114,.5);background:linear-gradient(90deg,var(--cy),var(--go))}
 .contact{padding:clamp(24px,4vw,48px)}
 footer{padding:60px 20px;text-align:center;color:var(--mut)}
-/* one orchestrated reveal */
+
 .js .rv{opacity:0;transform:translateY(34px);filter:blur(8px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1),filter 1s}
 .js .rv2{opacity:0;filter:blur(8px);transition:opacity 1s,filter 1s}
 .js .rv.in,.js .rv2.in{opacity:1;transform:none;filter:none}
 @media(max-width:820px){section{padding-top:120px}h1{font-size:clamp(3rem,15vw,5rem)}}
 @media(prefers-reduced-motion:reduce){.js .rv,.js .rv2{opacity:1;transform:none;filter:none;transition:none}}
-/* fix: the `background` shorthand resets background-clip, so re-declare it for gradient text */
+
 h1 .gold,h2.gold,h2.cyan{-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 h1 .cyan{-webkit-text-fill-color:currentColor}
 h1{font-size:clamp(3rem,7.2vw,6.4rem);line-height:.95}
 h2{font-size:clamp(2.6rem,5.6vw,4.4rem);padding-bottom:.08em}
-/* legible hero: soft scrim keeps the text off the pieces */
-#top::before{content:"";position:absolute;z-index:-1;left:-30vw;top:0;bottom:0;width:calc(30vw + 62%);background:linear-gradient(90deg,rgba(0,0,0,.82) 30%,rgba(0,0,0,.45) 70%,transparent);pointer-events:none}
-/* Game room board: same ivory and obsidian as the 3D scene */
-.gb{box-shadow:0 0 0 1px rgba(220,185,114,.35),0 50px 90px -30px rgba(0,0,0,.95),0 0 60px -20px rgba(220,185,114,.25)}
-.gs{background:rgba(228,220,203,.17)}.gs.d{background:rgba(5,6,9,.72)}
-.gs.lm{box-shadow:inset 0 0 0 100px rgba(220,185,114,.3)}
-.gp.w{color:#f1eadb;text-shadow:0 3px 6px rgba(0,0,0,.65)}
-.gp.b{color:#15171c;-webkit-text-stroke:1px rgba(220,185,114,.75);text-shadow:0 3px 6px rgba(0,0,0,.7)}
-.gb{--d:rgba(5,6,9,.72)}
 
-/* v7: chess set drawn as SVG, board that always fits, coordinates */
+#top::before{content:"";position:absolute;z-index:-1;left:-30vw;top:0;bottom:0;width:calc(30vw + 62%);background:linear-gradient(90deg,rgba(0,0,0,.82) 30%,rgba(0,0,0,.45) 70%,transparent);pointer-events:none}
+
 .pcs{fill:var(--pf);stroke:var(--ps);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}
 .pcd{fill:none;stroke:var(--ps);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .pcdf{fill:var(--ps);stroke:none}
-#hb.gb{--l:#cfc8b6;--d:#2b2f37;--wf:#f6f0e0;--ws:#15161a;--bf:#15171c;--bs:#dcb972;
   grid-template-columns:repeat(8,minmax(0,1fr));grid-template-rows:repeat(8,minmax(0,1fr));
   aspect-ratio:1;width:100%;max-width:min(100%,560px);margin-inline:auto;border-radius:14px;
   box-shadow:0 0 0 1px rgba(220,185,114,.4),0 0 0 8px rgba(255,255,255,.035),0 50px 90px -30px rgba(0,0,0,.95),0 0 60px -20px rgba(220,185,114,.3)}
-#hb.gb[data-t=classic]{--l:#eeeed2;--d:#769656;--wf:#fff;--ws:#2a2a2a;--bf:#2b2b2b;--bs:#000}
-#hb.gb[data-t=walnut]{--l:#f0d9b5;--d:#b58863;--wf:#fffaf0;--ws:#2a1c10;--bf:#2a2119;--bs:#000}
-#hb.gb .gs{aspect-ratio:auto;min-width:0;min-height:0;overflow:hidden;background:var(--l)}
-#hb.gb .gs.d{background:var(--d)}
-#hb.gb .gs.lm{box-shadow:inset 0 0 0 100px rgba(226,190,90,.42)}
-#hb.gb .gp{display:block;width:88%;height:88%;filter:drop-shadow(0 2px 2px rgba(0,0,0,.4));transition:none}
-#hb.gb .gp.w{--pf:var(--wf);--ps:var(--ws)}
-#hb.gb .gp.b{--pf:var(--bf);--ps:var(--bs)}
-.gs .co{position:absolute;font-size:clamp(.55rem,1.4vw,.75rem);font-weight:600;line-height:1;pointer-events:none;color:var(--d);opacity:.85}
-.gs.d .co{color:var(--l)}
-.gs .co.r{left:4px;top:4px}.gs .co.f{right:4px;bottom:4px}
-.sw{flex-wrap:wrap}.sw .fl{margin-left:auto}.sw .fl[aria-pressed=true]{color:#fff;border-color:var(--go)}
-.gr .moves{max-height:140px}
-/* skills board pieces */
+
 .pc{--pf:currentColor;--ps:rgba(3,5,8,.9)}
 .pc svg{display:block;width:80%;height:80%}
 .pc.pa svg{width:70%;height:70%}
-@media(max-width:800px){#hb.gb{max-width:min(100%,460px)}}
-#cap{white-space:nowrap;font-size:.92rem}
-@media(max-width:800px){#gc{min-height:2.4em}}
 
-/* ============ v8: type system + layout polish ============ */
 :root{
   --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
   --sans:'Instrument Sans','Hanken Grotesk',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
@@ -100,20 +74,19 @@ h2{font-size:clamp(2.5rem,5.2vw,4.2rem);line-height:1;letter-spacing:-.03em;marg
 h2.gold,h2.cyan{margin-bottom:14px}
 .lead{max-width:56ch;margin:0 0 44px;font-size:var(--fs-lg);line-height:1.55;color:var(--mut)}
 section{padding:clamp(96px,11vw,140px) 24px 64px}
-/* serif for titles that carry weight, sans for everything you read at length */
-.card h3,.holo h3,.binfo h3,.gt b{font-family:var(--serif);font-weight:400;letter-spacing:-.015em}
+
+.card h3,.holo h3,.binfo h3{font-family:var(--serif);font-weight:400;letter-spacing:-.015em}
 .card h3{font-size:clamp(1.6rem,2.4vw,1.95rem);line-height:1.12}
 .holo h3{font-size:1.9rem;line-height:1.1}
 .binfo h3{font-size:1.7rem;line-height:1.15}
-.gt{font-size:var(--fs-base)}.gt b{font-size:1.9rem;line-height:1.1;display:inline-block;margin-bottom:6px}
 .tl{font-size:clamp(1.4rem,2.6vw,2rem);line-height:1.25}
 .mut2{font-size:var(--fs-sm);letter-spacing:.005em}
 .sub{font-size:var(--fs-lg);line-height:1.6;max-width:44ch}
-/* numbers align and read as data */
-.kpi,.hero-kpi b,.metrics b,.mini b,.bar b,#cap,#mb,.moves button,.mv b{font-variant-numeric:tabular-nums lining-nums}
+
+.kpi,.hero-kpi b,.metrics b,.mini b,.bar b,.mv b{font-variant-numeric:tabular-nums lining-nums}
 .hero-kpi b{font-size:3.4rem;letter-spacing:-.02em}
 .metrics b{font-size:2.2rem;letter-spacing:-.02em}
-.metrics span,.mini span,.chart h4,.bar,.note,.mgh,.leg,.binfo small{font-size:var(--fs-sm)}
+.metrics span,.mini span,.chart h4,.bar,.leg,.binfo small{font-size:var(--fs-sm)}
 .mini span{color:var(--mut)}
 .card p{font-size:1rem;line-height:1.6}
 .card p.ins{font-size:var(--fs-sm);line-height:1.5}
@@ -122,10 +95,9 @@ section{padding:clamp(96px,11vw,140px) 24px 64px}
 nav a{font-size:.92rem;font-weight:500}
 .btn{font-size:1rem;font-weight:600;letter-spacing:.005em}
 .links a{font-size:.92rem;font-weight:500}
-.moves{font-size:.95rem}
 .bar{grid-template-columns:110px 1fr 46px}
 .bar u{height:7px}
-/* about: photo on one side, story and stats on the other */
+
 .about{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(28px,4vw,56px);align-items:center}
 .about .me{aspect-ratio:4/5;object-position:50% 20%;margin:0;height:100%;max-height:560px}
 .about .ab{display:grid;gap:0;align-content:center}
@@ -133,13 +105,13 @@ nav a{font-size:.92rem;font-weight:500}
 .about .ab p:first-child{font-family:var(--serif);font-size:clamp(1.55rem,2.6vw,2.15rem);line-height:1.25;color:#fff;letter-spacing:-.01em}
 .about .ab p:first-child strong{font-weight:400}
 .about .stats{margin-top:14px}
-/* certs: cards keep their own height */
+
 .certs{align-items:start}
 .holo .seal{font-size:2.6rem;line-height:1}
-/* footer */
+
 footer{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;max-width:1180px;margin:60px auto 0;padding:28px 24px calc(36px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);text-align:left}
 footer a{color:var(--mut);text-underline-offset:4px}footer a:hover{color:var(--go)}
-/* keyboard focus you can actually see */
+
 :focus-visible{outline:2px solid var(--go);outline-offset:3px;border-radius:6px}
 @media(max-width:820px){
   .about{grid-template-columns:1fr}
@@ -147,14 +119,14 @@ footer a{color:var(--mut);text-underline-offset:4px}footer a:hover{color:var(--g
   .lead{font-size:1.1rem;margin-bottom:32px}
   footer{justify-content:center;text-align:center}
 }
-/* v8 fixes */
+
 .metrics{gap:10px;flex-wrap:wrap}
 .metrics .glass{min-width:0;flex:1 1 0;padding:14px 16px}
 .metrics span{line-height:1.3}
 .about .ab p:first-child{font-family:var(--sans);font-size:var(--fs-base);line-height:1.7;color:var(--mut);letter-spacing:0}
 .about .ab p:first-child strong{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,2.5vw,2.1rem);line-height:1.2;letter-spacing:-.01em;color:#fff;margin-bottom:12px}
 @media(max-width:820px){.metrics .glass{flex:1 1 140px}}
-/* v8 certs: certificate beside its details, second track as a slim strip */
+
 .certs{grid-template-columns:1fr;gap:20px}
 .certs .holo{min-height:0;padding:clamp(22px,3.4vw,40px)}
 .certs .holo:first-child{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);column-gap:clamp(24px,4vw,52px);align-content:center;align-items:start}
@@ -185,7 +157,6 @@ footer a{color:var(--mut);text-underline-offset:4px}footer a:hover{color:var(--g
 .certs .holo:first-child .cimg img{margin-bottom:0}
 @media(max-width:820px){.certs .holo:first-child>*{grid-row:auto}}
 
-/* ============ v9: iPhone typography (SF), calm and soft ============ */
 :root{
   --sans:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Display','Inter','Segoe UI Variable Text','Segoe UI',system-ui,Roboto,'Helvetica Neue',Arial,sans-serif;
   --serif:var(--sans);
@@ -193,7 +164,7 @@ footer a{color:var(--mut);text-underline-offset:4px}footer a:hover{color:var(--g
   --fs-base:1.03rem;--fs-lg:1.16rem;--fs-sm:.88rem;
 }
 body{font-family:var(--sans);font-weight:400;letter-spacing:-.006em;line-height:1.6}
-h1,h2,h3,h4,.tl,.mv,.gt b,.kpi,.hero-kpi b,.metrics b,.stat b,.btn,nav a{font-family:var(--sans)}
+h1,h2,h3,h4,.tl,.mv,.kpi,.hero-kpi b,.metrics b,.stat b,.btn,nav a{font-family:var(--sans)}
 h1{font-weight:600;font-size:clamp(2.8rem,6.6vw,5.6rem);line-height:1;letter-spacing:-.045em}
 h1 .gold{background:none;-webkit-text-fill-color:#f5f5f7;color:#f5f5f7}
 h1 .cyan{font-style:normal;font-weight:600;-webkit-text-fill-color:rgba(245,245,247,.65);color:rgba(245,245,247,.65)}
@@ -203,7 +174,6 @@ h3{font-weight:600;letter-spacing:-.02em}
 .card h3{font-size:clamp(1.3rem,2vw,1.6rem)}
 .holo h3,.certs .holo:first-child h3{font-size:clamp(1.5rem,2.6vw,2.1rem)}
 .binfo h3{font-size:1.4rem}
-.gt b{font-size:1.45rem;font-weight:600;letter-spacing:-.025em}
 .tl{font-style:normal;font-weight:500;font-size:clamp(1.15rem,2vw,1.5rem);letter-spacing:-.02em;color:var(--go)}
 .mv{font-style:normal;font-weight:500;font-size:.9rem;letter-spacing:0;color:var(--go)}
 .sub,.lead{font-weight:400;color:var(--mut);letter-spacing:-.01em}
@@ -216,14 +186,13 @@ nav a{font-weight:500}
 .stat b,.mini b,.bar b{font-weight:500}
 .pill,.tag{font-weight:500;letter-spacing:0}
 .track span{font-weight:500;letter-spacing:-.005em}
-/* softer surfaces */
+
 .glass{border-radius:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 30px 60px -40px #000}
 .card::before,.holo::before{opacity:.0}
 .holo::before{opacity:.10}
 .card:hover{border-color:rgba(255,255,255,.18)}
 .bar u i{box-shadow:none}
 
-/* ---- window bar ---- */
 .win{--tb:42px}
 .glass>.tb{position:absolute;top:0;left:0;right:0;height:var(--tb);display:flex;align-items:center;padding:0 16px;z-index:10;
   background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));border-bottom:1px solid rgba(255,255,255,.08);
@@ -234,28 +203,22 @@ nav a{font-weight:500}
 .tb .tt{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);max-width:52%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   font-size:.8rem;font-weight:500;letter-spacing:0;color:rgba(255,255,255,.5)}
 .about.win{padding-top:calc(clamp(26px,4vw,52px) + var(--tb))}
-.gr.win{padding-top:calc(clamp(26px,4vw,52px) + var(--tb))}
 .contact.win{padding-top:calc(clamp(24px,4vw,48px) + var(--tb))}
 .card.win{padding-top:calc(32px + var(--tb))}
 .holo.win,.certs .holo.win{padding-top:calc(clamp(22px,3.4vw,40px) + var(--tb))}
 .binfo.win{padding-top:calc(28px + var(--tb))}
 @media(max-width:820px){.tb .tt{max-width:44%;font-size:.76rem}}
 
-/* v9.1: the window bar must ignore the certs grid placement and span the whole card */
 .certs .holo.win>.tb,.certs .holo.win:first-child>.tb,.certs .holo.win:last-child>.tb{
   grid-column:auto!important;grid-row:auto!important;justify-self:stretch!important;align-self:auto!important;
   position:absolute!important;inset:0 0 auto 0;width:auto;margin:0}
 
-/* Typewriter */
 .tw-wait::after, .tw-typing::after { content: '|'; color: var(--go); animation: blink .7s infinite; margin-left: 6px; }
 .tw-wait::after { opacity: 0; animation: none; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-
-
 body.has-max .grid { perspective: none !important; transform: none !important; }
 
-/* Window Manager */
 .win { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s, border-radius 0.4s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, opacity; }
 .win.win-animating { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s, filter 0.3s, border-radius 0.5s cubic-bezier(0.16, 1, 0.3, 1), inset 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important; }
 .win-closed { transform: scale(0.9) translateY(30px) !important; opacity: 0 !important; pointer-events: none !important; }
@@ -277,21 +240,19 @@ body.has-max .grid { perspective: none !important; transform: none !important; }
   font-size: 1.15em !important;
 }
 
-/* Fix layout for maximized elements */
 .win-max .ab, .win-max .stats { max-width: 900px; width: 100%; margin: 0 auto; }
 .win-max.about { display: flex !important; flex-direction: column !important; align-items: center !important; }
 .win-max img.me { max-height: 50vh; object-fit: contain; margin: 0 auto 20px; }
 .win-max h3 { font-size: 1.6rem !important; margin-bottom: 15px !important; }
 .win-max p, .win-max .prob, .win-max .dec { font-size: 1.1rem !important; line-height: 1.7 !important; }
 
-/* Specific fixes for Project Cards (.card) when maximized */
 .win-max.card {
-  align-items: center !important; 
+  align-items: center !important;
 }
 .win-max.card > * {
   max-width: 860px;
   width: 100%;
-  transform: none !important; /* Disable 3D translateZ that causes clipping on fixed elements */
+  transform: none !important;
 }
 .win-max.card > .tb { max-width: none; width: auto; }
 .win-max.card p { flex: none !important; margin-bottom: 30px !important; }
@@ -332,7 +293,6 @@ body.has-max .grid { perspective: none !important; transform: none !important; }
 }
 .tb .dots button:hover { filter: brightness(1.3); transform: scale(1.15); }
 
-/* skill title chip: rises from the selected piece on the skills board (title only) */
 .bstage{position:relative}
 .sklab{--ac:var(--cy);position:absolute;left:0;top:0;z-index:6;pointer-events:none;opacity:0;transform:translate(calc(var(--x,0)*1px),calc(var(--y,0)*1px)) translate(-50%,calc(-100% - 10px))}
 .sklab.on{opacity:1}
@@ -345,7 +305,6 @@ body.has-max .grid { perspective: none !important; transform: none !important; }
 @keyframes sklab-stem{from{transform:scaleY(0)}to{transform:none}}
 @media(max-width:800px){.sklab span{font-size:.84rem;padding:7px 12px}}
 
-/* v15: contact form status + honeypot */
 .contact .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
 .contact .fs{min-height:1.4em;margin:14px 0 0;text-align:center;font-size:.9rem;color:var(--mut)}
 .contact .fs.ok{color:#a9d6e5}
